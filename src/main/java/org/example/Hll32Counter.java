@@ -1,7 +1,5 @@
 package org.example;
 
-import org.apache.commons.codec.digest.MurmurHash3;
-
 import java.util.Objects;
 import java.util.function.ToLongFunction;
 
