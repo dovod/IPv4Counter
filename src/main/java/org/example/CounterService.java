@@ -1,7 +1,5 @@
 package org.example;
 
-import org.apache.commons.codec.digest.MurmurHash3;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.time.LocalDateTime;
@@ -12,14 +10,9 @@ public class CounterService {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             System.out.println("Input file: " + fileName);
 
-            UniqueCounter<String> counter;
-            if (precision > 0) {
-                counter = new Hll32Counter<>(precision, CounterService::hashCode);
-                System.out.println("Precision: " + precision);
-            } else {
-                counter = new Hll32Counter<>();
-                System.out.println("Precision is default");
-            }
+            UniqueCounter<String> counter = new Hll32Counter<>(precision);
+            System.out.println("Precision: " + precision);
+
             long lineCounter = 0L;
 
             String inputAddress = reader.readLine();
@@ -40,10 +33,6 @@ public class CounterService {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-    }
-
-    public static long hashCode(String s) {
-        return MurmurHash3.hash64(s.getBytes());
     }
 
     private void writeSate(long lineCounter, UniqueCounter<String> counter) {

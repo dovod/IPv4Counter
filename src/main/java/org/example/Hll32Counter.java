@@ -1,5 +1,7 @@
 package org.example;
 
+import org.apache.commons.codec.digest.MurmurHash3;
+
 import java.util.Objects;
 import java.util.function.ToLongFunction;
 
@@ -15,7 +17,7 @@ public class Hll32Counter<E> implements UniqueCounter<E> {
     }
 
     public Hll32Counter(int precision) {
-        this(precision, E::hashCode);
+        this(precision, null);
     }
 
     public Hll32Counter(int precision, ToLongFunction<E> calcHash) {
@@ -71,13 +73,15 @@ public class Hll32Counter<E> implements UniqueCounter<E> {
     }
 
     private long hashCode(E element) {
-//        Даёт хорошую точность, но по условию задачи можно использовать только стандартные библиотеки java
-//        if (element instanceof String) {
-//            return MurmurHash3.hash64(((String) element).getBytes());
-//        }
-        long result = Objects.hash(element);
-        result = 31 * result;
-        return result;
+        long hash = 0;
+        if (element instanceof String) {
+//  Даёт хорошую точность, правда по условию задачи можно использовать только стандартные библиотеки java :(
+            return MurmurHash3.hash64(((String) element).getBytes());
+        }
+
+        hash = Objects.hash(element);
+        hash = 31 * hash;
+        return hash;
     }
 
 }

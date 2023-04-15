@@ -4,7 +4,7 @@ public class Main {
     private static final String ARG_NAME_PRECISION = "precision";
     private static final String ARG_NAME_FILE = "fileName";
     private static String fileName = "ip_addresses";
-    private static int precision = 0;
+    private static int precision = 20;
 
     public static void main(String[] args) {
         CounterService counterService = new CounterService();
